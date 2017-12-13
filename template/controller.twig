@@ -1,0 +1,171 @@
+{% autoescape false %}
+<?php
+
+namespace app\admin\controller;
+
+use app\{{ module }}\model\{{ controller }}Model;
+
+/**
+ * {{ name }}管理控制器
+ * @package app\admin\controller
+ */
+class {{ controller }} extends Admin
+{
+{% if configs['admin']['index']['generate_code'] %}
+    /**
+     * {{ name }}列表
+     * @return array|\think\response\View
+     */
+    public function index()
+    {
+        if (request()->isAjax()) {
+            return $this->getRecords();
+        } else {
+            $this->assign('title', '{{ name }}列表');
+
+            return view('{{ controller }}/index');
+        }
+    }
+
+    /**
+     * 返回前端ajax要获取的{{ name }}列表数据
+     * @return array
+     */
+    private function getRecords()
+    {
+        $records = [];
+        $records["data"] = [];
+        $records['draw'] = input('post.draw', 1);
+        $start = input('post.start', 0);
+        $length = input('post.length', 20);
+        $columns = input('post.columns/a');
+        $orderColumns = input('post.order/a');
+        $orders = [];
+        foreach ($orderColumns as $orderColumn) {
+            $orders[$columns[$orderColumn['column']]['data']] = $orderColumn['dir'];
+        }
+        $condition = ['id' => ['>', 0]];
+        ${{ flController }}Model = new {{ controller }}Model();
+
+        $records["data"] = ${{ flController }}Model->where($condition)
+            ->order($orders)
+            ->limit($start, $length)
+            ->select();
+        $records["recordsFiltered"] = $records["recordsTotal"] = ${{ flController }}Model->where($condition)
+            ->count();
+{% if getters %}
+
+        //追加获取器相关字段
+        foreach ($records["data"] as &$record) {
+            $record = $record->append({{ var_encode(getters) }})->toArray();
+        }
+{% endif %}
+
+        return $records;
+    }
+{% endif %}
+
+{% if configs['admin']['add']['generate_code'] %}
+    /**
+     * 添加{{ name }}
+     * @return array|\think\response\View
+     */
+    public function add()
+    {
+        if (request()->isPost()) {
+            return $this->addSubmit();
+        } else {
+
+            $this->assign('title', '添加{{ name }}');
+            return view('{{ controller }}/add');
+        }
+    }
+
+    /**
+     * 处理前端添加{{ name }}的请求
+     * @return array
+     */
+    private function addSubmit()
+    {
+        ${{ flController }} = input('post.');
+
+{% for auto in configs['admin']['add']['auto'] %}
+        ${{ flController }}['{{ auto.key }}'] = {{ auto.value }};
+{% endfor %}
+        $res = {{ controller }}Model::create(${{ flController }})->save();
+        if ($res === false) {
+            return ['success' => false, 'info' => '操作失败'];
+        }
+
+        return ['success' => true, 'info' => '操作成功'];
+    }
+{% endif %}
+
+{% if configs['admin']['edit']['generate_code'] %}
+    /**
+     * 编辑{{ name }}
+     * @param int $id {{ name }}ID
+     * @return array|\think\response\View
+     */
+    public function edit($id)
+    {
+        if (request()->isPost()) {
+            return $this->editSubmit();
+        } else {
+            $this->assign('{{ flController }}', {{ controller }}Model::get($id));
+
+            $this->assign('title', '编辑{{ name }}');
+            return view('{{ controller }}/edit');
+        }
+    }
+
+    /**
+     * 处理前端编辑{{ name }}的请求
+     * @return array
+     */
+    private function editSubmit()
+    {
+        ${{ flController }} = input('post.');
+
+{% for auto in configs['admin']['edit']['auto'] %}
+        ${{ flController }}['{{ auto.key }}'] = {{ auto.value }};
+{% endfor %}
+        $res = {{ controller }}Model::update(${{ flController }});
+        if ($res === false) {
+            return ['success' => false, 'info' => '操作失败'];
+        }
+
+        return ['success' => true, 'info' => '操作成功'];
+    }
+{% endif %}
+
+    /**
+     * 删除{{ name }}
+     * @param int $id {{ name }}ID
+     * @return array
+     */
+    public function delete($id)
+    {
+        $res = {{ controller }}Model::destroy($id);
+        if ($res === false) {
+            return ['success' => false, 'info' => '操作失败'];
+        }
+
+        return ['success' => true, 'info' => '操作成功'];
+    }
+
+{% if configs['admin']['detail']['generate_code'] %}
+    /**
+     * {{ name }}详情
+     * @param int $id {{ name }}ID
+     * @return \think\response\View
+     */
+    public function detail($id)
+    {
+        $this->assign('{{ flController }}', {{ controller }}Model::get($id));
+
+        $this->assign('title', '{{ name }}详情');
+        return view('{{ controller }}/detail');
+    }
+{% endif %}
+}{% endautoescape %}

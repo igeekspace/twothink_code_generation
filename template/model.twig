@@ -1,0 +1,75 @@
+{% macro getterType2(configs, getter) %}
+{% autoescape false %}
+    /**
+     * 获取器:得到该{{ configs.name }}的{{ getter.name }}
+     * @param $value
+     * @param $data
+     * @return string
+     */
+    public function get{{ getter.code }}Attr($value, $data)
+    {
+{% if getter.dataSource.type == 1 %}
+        $maps = {{ var_encode(getter.dataSource.maps) }};
+
+        if (isset($maps[$data['{{ getter.dataSource.column }}']])) {
+            return $maps[$data['{{ getter.dataSource.column }}']];
+        } else {
+            return '';
+        }
+{% elseif getter.dataSource.type == 2 %}
+        ${{ getter.foreign_configs.flController }}Model = new {{ getter.foreign_configs.model }}();
+
+        return ${{ getter.foreign_configs.flController }}Model->where([
+{% for key,condition in getter.dataSource.conditions %}
+            '{{ key }}' => $data['{{ condition }}']
+{% endfor %}
+        ])->value('{{ getter.dataSource.column }}', '{{ getter.dataSource.default |default('') }}');
+{% endif %}
+    }
+{% endautoescape %}
+{% endmacro %}
+<?php
+
+namespace app\{{ module }}\model;
+
+use think\Model;
+
+/**
+ * {{ controller }}Model类
+ * @package app\{{ module }}\model
+ */
+class {{ controller }}Model extends Model
+{
+    /**
+     * @var string 数据库表名
+     */
+    protected $table = '{{ table }}';
+{% if fieldsType.created_at is defined %}
+    /**
+     * @var string 创建时间对应字段
+     */
+    protected $createTime = 'created_at';
+{% endif %}
+{% if fieldsType.updated_at is defined %}
+    /**
+     * @var string 更新时间对应字段
+     */
+    protected $updateTime = 'updated_at';
+{% endif %}
+{% if fieldsType.created_at is defined or fieldsType.updated_at is defined or fieldsType.deleted_at is defined %}
+    /**
+     * @var string 时间戳在数据库中的数据类型
+     */
+    protected $autoWriteTimestamp = 'datetime';
+{% endif %}
+{% if configs.getters %}
+
+{% endif %}
+{% for getter in configs.getters %}
+{% if getter.type == 1%}
+{% elseif getter.type == 2 %}
+{% import _self as model %}
+{{ model.getterType2(configs, getter) }}
+{% endif %}
+{% endfor %}
+}

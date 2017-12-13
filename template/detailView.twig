@@ -1,0 +1,49 @@
+{% autoescape false %}
+{extend name="Public/base" /}
+{block name="style"}
+<style>
+    .title-label{
+        margin-top: 1px;
+        font-weight: 600;
+    }
+</style>
+{/block}
+{block name="body"}
+<div class="row">
+    <div class='panel panel-default'>
+        <div class='panel-heading'>
+            {{ name }}详情
+        </div>
+        <div class='panel-body'>
+{% for column in columns %}
+            <div class="row">
+                <label class="col-md-2 title-label">
+                    {{ column.name }}
+                </label>
+                <div class="col-md-10">
+{% if column.type == "pic" %}
+                    <img src="{${{ flController }}.{{ column.getter}}}"/>
+{% else %}
+                    {${{ flController }}.{{ column.getter}}}
+{% endif %}
+                </div>
+            </div>
+{% endfor %}
+            <div class="row">
+                <label class="col-md-2 title-label"></label>
+                <div class="col-md-10">
+                    <input type="button" id="editBtn" value="编辑" class="btn btn-primary"/>
+                    <input type="button" onclick='history.back()' value="返回" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+    $('#editBtn').click(function () {
+        location.href = "{:url('edit', ['id' => ${{ flController }}.{{ primaryKey }}])}";
+    });
+</script>
+{/block}{% endautoescape %}
