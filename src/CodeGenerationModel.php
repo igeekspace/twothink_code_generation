@@ -1,6 +1,6 @@
 <?php
 
-namespace igeekspace\CodeGeneration;
+namespace igeekspace\TwothinkCodeGeneration;
 
 use think\Model;
 

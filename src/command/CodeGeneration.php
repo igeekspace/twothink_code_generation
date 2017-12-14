@@ -1,6 +1,6 @@
 <?php
 
-namespace igeekspace\CodeGeneration\command;
+namespace igeekspace\TwothinkCodeGeneration\command;
 
 use think\console\Command;
 use think\Loader;

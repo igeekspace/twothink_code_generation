@@ -1,12 +1,12 @@
 <?php
 
-namespace igeekspace\CodeGeneration\maker;
+namespace igeekspace\TwothinkCodeGeneration\maker;
 
-use igeekspace\CodeGeneration\command\CodeGeneration;
+use igeekspace\TwothinkCodeGeneration\command\CodeGeneration;
 
 /**
  * Class IndexViewMaker
- * @package igeekspace\CodeGeneration\maker
+ * @package igeekspace\TwothinkCodeGeneration\maker
  */
 class IndexViewMaker extends ViewMaker
 {

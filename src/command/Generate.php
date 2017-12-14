@@ -1,14 +1,14 @@
 <?php
 
-namespace igeekspace\CodeGeneration\command;
+namespace igeekspace\TwothinkCodeGeneration\command;
 
-use igeekspace\CodeGeneration\maker\AddViewMaker;
-use igeekspace\CodeGeneration\maker\ControllerMaker;
-use igeekspace\CodeGeneration\maker\DetailViewMaker;
-use igeekspace\CodeGeneration\maker\EditViewMaker;
-use igeekspace\CodeGeneration\maker\IndexViewMaker;
-use igeekspace\CodeGeneration\maker\ModelMaker;
-use igeekspace\CodeGeneration\TwoThink;
+use igeekspace\TwothinkCodeGeneration\maker\AddViewMaker;
+use igeekspace\TwothinkCodeGeneration\maker\ControllerMaker;
+use igeekspace\TwothinkCodeGeneration\maker\DetailViewMaker;
+use igeekspace\TwothinkCodeGeneration\maker\EditViewMaker;
+use igeekspace\TwothinkCodeGeneration\maker\IndexViewMaker;
+use igeekspace\TwothinkCodeGeneration\maker\ModelMaker;
+use igeekspace\TwothinkCodeGeneration\TwoThink;
 use think\App;
 use think\console\Input;
 use think\console\Output;

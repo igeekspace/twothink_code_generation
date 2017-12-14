@@ -1,6 +1,6 @@
 <?php
 
-namespace igeekspace\CodeGeneration;
+namespace igeekspace\TwothinkCodeGeneration;
 
 use app\admin\model\ActionModel;
 use app\admin\model\AdminRoleModel;

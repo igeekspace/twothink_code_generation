@@ -1,6 +1,6 @@
 <?php
 
-namespace igeekspace\CodeGeneration\maker;
+namespace igeekspace\TwothinkCodeGeneration\maker;
 
 use Riimu\Kit\PHPEncoder\PHPEncoder;
 use think\Loader;

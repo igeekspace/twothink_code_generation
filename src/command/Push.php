@@ -1,8 +1,8 @@
 <?php
 
-namespace igeekspace\CodeGeneration\command;
+namespace igeekspace\TwothinkCodeGeneration\command;
 
-use igeekspace\CodeGeneration\CodeGenerationModel;
+use igeekspace\TwothinkCodeGeneration\CodeGenerationModel;
 use think\console\Input;
 use think\console\Output;
 use think\Db;

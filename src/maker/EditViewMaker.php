@@ -1,8 +1,8 @@
 <?php
 
-namespace igeekspace\CodeGeneration\maker;
+namespace igeekspace\TwothinkCodeGeneration\maker;
 
-use igeekspace\CodeGeneration\command\CodeGeneration;
+use igeekspace\TwothinkCodeGeneration\command\CodeGeneration;
 use Riimu\Kit\PHPEncoder\PHPEncoder;
 
 class EditViewMaker extends ViewMaker

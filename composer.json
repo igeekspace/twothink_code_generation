@@ -1,0 +1,28 @@
+{
+  "name": "igeekspace/twothink-code-generation",
+  "type": "library",
+  "description": "基于twothink的代码生成器",
+  "minimum-stability": "alpha",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "sknight",
+      "email": "360776816@qq.com"
+    }
+  ],
+  "require": {
+    "topthink/framework": "^5.0",
+    "twig/twig": "~1.0",
+    "riimu/kit-phpencoder": "2.3.*"
+  },
+  "keywords": [
+    "twothink",
+    "code",
+    "generation"
+  ],
+  "autoload": {
+    "psr-4": {
+      "igeekspace\\TwothinkCodeGeneration\\": "src/"
+    }
+  }
+}

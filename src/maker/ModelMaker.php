@@ -1,9 +1,9 @@
 <?php
 
-namespace igeekspace\CodeGeneration\maker;
+namespace igeekspace\TwothinkCodeGeneration\maker;
 
-use igeekspace\CodeGeneration\BaseModel;
-use igeekspace\CodeGeneration\command\CodeGeneration;
+use igeekspace\TwothinkCodeGeneration\BaseModel;
+use igeekspace\TwothinkCodeGeneration\command\CodeGeneration;
 use think\App;
 use think\Loader;
 
