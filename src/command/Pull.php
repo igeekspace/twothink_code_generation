@@ -6,6 +6,7 @@ use igeekspace\TwothinkCodeGeneration\CodeGenerationModel;
 use Riimu\Kit\PHPEncoder\PHPEncoder;
 use think\console\Input;
 use think\console\Output;
+use think\Db;
 
 class Pull extends CodeGeneration
 {
@@ -51,7 +52,7 @@ class Pull extends CodeGeneration
                 ];
             }
 
-            $fields = getTableFileds($configs['table_name']);
+            $fields = Db::query("SHOW FULL COLUMNS FROM " . $configs['table_name']);
             $configs['fields'] = [];
 
             foreach ($fields as $field) {

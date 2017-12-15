@@ -3,6 +3,7 @@
 namespace igeekspace\TwothinkCodeGeneration\maker;
 
 use Riimu\Kit\PHPEncoder\PHPEncoder;
+use think\Db;
 use think\Loader;
 
 class Maker
@@ -29,7 +30,7 @@ class Maker
 
     protected function getTableFieldsByTable($table)
     {
-        $fields = getTableFileds($table);
+        $fields = Db::query("SHOW FULL COLUMNS FROM " . $table);
 
         foreach ($fields as &$field) {
             if ($field['Field'] == 'id') {
