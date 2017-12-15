@@ -34,37 +34,4 @@ abstract class CodeGeneration extends Command
 
         return Loader::parseName($tableName, 1);
     }
-
-    /**
-     * Converts array() to []
-     * @param  string
-     * @return string
-     */
-    public static function convertArraysToSquareBrackets($code)
-    {
-        $out = '';
-        $brackets = [];
-        $tokens = token_get_all($code);
-        for ($i = 0; $i < count($tokens); $i++) {
-            $token = $tokens[$i];
-            if ($token === '(') {
-                $brackets[] = false;
-            } elseif ($token === ')') {
-                $token = array_pop($brackets) ? ']' : ')';
-            } elseif (is_array($token) && $token[0] === T_ARRAY) {
-                $a = $i + 1;
-                if (isset($tokens[$a]) && $tokens[$a][0] === T_WHITESPACE) {
-                    $a++;
-                }
-                if (isset($tokens[$a]) && $tokens[$a] === '(') {
-                    $i = $a;
-                    $brackets[] = true;
-                    $token = '[';
-                }
-            }
-            $out .= is_array($token) ? $token[1] : $token;
-        }
-
-        return $out;
-    }
 }
