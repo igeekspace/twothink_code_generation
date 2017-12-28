@@ -40,9 +40,11 @@ class Push extends CodeGeneration
                     $fieldConfig['Comment']['dataSource']['model'] = str_replace('\\',
                         '\\\\', $fieldConfig['Comment']['dataSource']['model']);
                 }
-                $sql = sprintf("alter table %s modify column %s %s %s %s comment '%s';",
+                $sql = sprintf("alter table %s modify column %s %s %s %s %s comment '%s';",
                     $configs['table_name'], $fieldConfig['Field'],
                     $fieldConfig['Type'], $nullStr,
+                    $fieldConfig['Default'] !== null ? 'default ' . var_export($fieldConfig['Default'],
+                            true) : '',
                     $fieldConfig['Extra'],
                     json_encode($fieldConfig['Comment'],
                         JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));

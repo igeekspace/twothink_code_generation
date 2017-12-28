@@ -20,7 +20,7 @@
                         {:upload("{{ column.key}}", "", {{ loadUploadfyLib }})}
 {% set loadUploadfyLib = 'false' %}
 {% elseif column.type == "ueditor" %}
-                        {:ueditor('{{ column.key}}', "", )}
+                        {:ueditor('{{ column.key}}', "", {{ loadUeditorLib }})}
 {% set loadUeditorLib = 'false' %}
 {% elseif column.type == "textarea" %}
                         <textarea name="{{ column.key}}" cols="100" rows="5"></textarea>
