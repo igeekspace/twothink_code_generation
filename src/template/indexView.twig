@@ -144,7 +144,7 @@
                 layer.confirm('确认要删除吗？', function (index) {
                     $.ajax({
                         url: "{:url('delete')}" ,
-                        data: {id: ids},
+                        data: {ids: ids},
                         dataType: 'json',
                         success: function (rJson) {
                             layer.close(index);

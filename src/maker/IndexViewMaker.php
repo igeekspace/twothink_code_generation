@@ -65,7 +65,7 @@ class IndexViewMaker extends ViewMaker
         $genFields = $this->getGenFields();
 
         foreach ($genFields as $genField) {
-            $field = $genField['key'];
+            $field = $genField['getter'];
             $tableHeads[] = $this->getFieldName($field);
         }
 
