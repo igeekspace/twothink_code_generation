@@ -142,19 +142,22 @@
                 }
 
                 layer.confirm('确认要删除吗？', function (index) {
+                    layer.close(index);
                     $.ajax({
                         url: "{:url('delete')}" ,
                         data: {ids: ids},
                         dataType: 'json',
+                        beforeSubmit: function (arr, $form, options) {
+                            layer.load();
+                        },
                         success: function (rJson) {
-                            layer.close(index);
-
+                            layer.closeAll('loading'); //关闭加载层
                             if(rJson.success){
                                 grid.reload();
                             }
                         },
                         error:function () {
-                            layer.close(index);
+                            layer.closeAll('loading'); //关闭加载层
                             layer.alert("操作失败", {
                                 icon: 2,
                                 skin: 'layui-layer-lan'
