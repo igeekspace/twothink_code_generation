@@ -32,13 +32,13 @@ class Push extends CodeGeneration
 
             $configs = require self::$configPath . $file;
 
-            $fieldConfigs = $configs['fields'];
-            foreach ($fieldConfigs as $fieldConfig) {
+            foreach ($configs['fields'] as $fieldConfig) {
                 $nullStr = $fieldConfig['Null'] == 'YES' ? ' NULL' : ' NOT NULL';
 
-                if (isset($fieldConfig['Comment']['dataSource']['model'])) {
-                    $fieldConfig['Comment']['dataSource']['model'] = str_replace('\\',
-                        '\\\\', $fieldConfig['Comment']['dataSource']['model']);
+                if (isset($fieldConfig['CodeGenerationConfigs']['dataSource']['model'])) {
+                    $fieldConfig['CodeGenerationConfigs']['dataSource']['model'] = str_replace('\\',
+                        '\\\\',
+                        $fieldConfig['CodeGenerationConfigs']['dataSource']['model']);
                 }
                 $sql = sprintf("alter table %s modify column %s %s %s %s %s comment '%s';",
                     $configs['table_name'], $fieldConfig['Field'],
@@ -46,13 +46,18 @@ class Push extends CodeGeneration
                     $fieldConfig['Default'] !== null ? 'default ' . var_export($fieldConfig['Default'],
                             true) : '',
                     $fieldConfig['Extra'],
-                    json_encode($fieldConfig['Comment'],
-                        JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                    $fieldConfig['Comment']);
 
                 Db::query($sql);
             }
 
-            unset($configs['fields']);
+            if (isset($configs['remark'])) {
+                $tableComment = $configs['remark'];
+            } else {
+                $tableComment = $configs['name'];
+            }
+
+            Db::query('alter table ' . $configs['table_name'] . " comment '" . $tableComment . "';");
 
             $codeGenerationModel = new CodeGenerationModel();
             $codeGenConfigs = $codeGenerationModel

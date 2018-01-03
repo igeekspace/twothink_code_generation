@@ -20,8 +20,7 @@ class Pull extends CodeGeneration
     {
         $output->writeln("start generate config files");
 
-        $codeGenerationModel = new CodeGenerationModel();
-        $codeGenConfigs = $codeGenerationModel->select();
+        $codeGenConfigs = CodeGenerationModel::all();
 
         foreach ($codeGenConfigs as $codeGenConfig) {
             $filePath = self::$configPath . $codeGenConfig['table_name'] . '.php';
@@ -53,13 +52,23 @@ class Pull extends CodeGeneration
             }
 
             $fields = Db::query("SHOW FULL COLUMNS FROM " . $configs['table_name']);
-            $configs['fields'] = [];
+
+            if (!isset($configs['fields'])) {
+                $configs['fields'] = [];
+            }
 
             foreach ($fields as $field) {
-                $fieldConfigs = json_decode($field['Comment'], true);
+                if (!isset($configs['fields'][$field['Field']])) {
+                    $configs['fields'][$field['Field']] = [];
+                }
+
+                if (!isset($configs['fields'][$field['Field']]['CodeGenerationConfigs'])) {
+                    $configs['fields'][$field['Field']]['CodeGenerationConfigs'] = [];
+                }
+                $fieldConfigs = $configs['fields'][$field['Field']]['CodeGenerationConfigs'];
 
                 if (!isset($fieldConfigs['name'])) {
-                    $fieldConfigs = $field['Comment'] = [
+                    $fieldConfigs = [
                         'name' => $field['Comment'],
                         'remark' => $field['Comment']
                     ];
@@ -93,7 +102,7 @@ class Pull extends CodeGeneration
                     ];
                 }
 
-                $field['Comment'] = $fieldConfigs;
+                $field['CodeGenerationConfigs'] = $fieldConfigs;
 
                 $configs['fields'][$field['Field']] = $field;
             }
