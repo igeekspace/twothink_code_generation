@@ -57,16 +57,16 @@ class Pull extends CodeGeneration
                 $configs['fields'] = [];
             }
 
-            foreach ($fields as &$field) {
+            $fieldCodeGenerationConfigs = [];
+            foreach ($fields as $field) {
                 if (!isset($configs['fields'][$field['Field']])) {
                     $configs['fields'][$field['Field']] = [];
                 }
 
-                $field['CodeGenerationConfigs'] = [];
+                $fieldConfigs = [];
                 if (isset($configs['fields'][$field['Field']]['CodeGenerationConfigs'])) {
-                    $field['CodeGenerationConfigs'] = $configs['fields'][$field['Field']]['CodeGenerationConfigs'];
+                    $fieldConfigs = $configs['fields'][$field['Field']]['CodeGenerationConfigs'];
                 }
-                $fieldConfigs =  $field['CodeGenerationConfigs'];
 
                 if (!isset($fieldConfigs['name'])) {
                     $fieldConfigs = [
@@ -104,9 +104,10 @@ class Pull extends CodeGeneration
                 }
 
                 $field['CodeGenerationConfigs'] = $fieldConfigs;
+                $fieldCodeGenerationConfigs[$field['Field']] = $field;
             }
 
-            $configs['fields'] = $fields;
+            $configs['fields'] = $fieldCodeGenerationConfigs;
 
             if (!is_dir(self::$configPath)) {
                 mkdir(self::$configPath, 0777, true);
