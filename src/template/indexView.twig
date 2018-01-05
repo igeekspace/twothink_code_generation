@@ -147,7 +147,7 @@
                         url: "{:url('delete')}" ,
                         data: {ids: ids},
                         dataType: 'json',
-                        beforeSubmit: function (arr, $form, options) {
+                        beforeSend: function () {
                             layer.load();
                         },
                         success: function (rJson) {

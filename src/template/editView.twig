@@ -27,9 +27,15 @@
                                 <textarea name="{{ column.key}}" cols="100" rows="5">{${{ flController }}.{{ column.key}}}</textarea>
 {% elseif column.type == "radio" %}
                                 <div style="height: 34px;line-height: 34px">
+{% if column.fieldConfigs.dataSource is defined %}
 {% for option in column.fieldConfigs.dataSource %}
                                         <input type="radio" name="{{ column.key}}" value="{{ option.value }}" {if '{{ option.value }}' == ${{ flController }}.{{ column.key}}}checked{/if}>{{ option.text }}
 {% endfor %}
+{% elseif column.fieldConfigs.getterObj.dataSource.maps is defined %}
+{% for key, option in column.fieldConfigs.getterObj.dataSource.maps %}
+                            <input type="radio" name="{{ column.key}}" value="{{ key }}" {if '{{ option.value }}' == ${{ flController }}.{{ column.key}}}checked{/if}>{{ option }}
+{% endfor %}
+{% endif %}
                                 </div>
 {% elseif column.type == "select" %}
                                 <select name="{{ column.key}}" class="form-control input-medium">

@@ -48,6 +48,10 @@ class AddViewMaker extends ViewMaker
                 $genField['fieldConfigs']['dataSource']['fields'] = $encoder->encode($genField['fieldConfigs']['dataSource']['fields'],
                     ['string.escape' => false]);
             }
+
+            if (isset($this->configs['getters'][$genField['getter']])) {
+                $genField['fieldConfigs']['getterObj'] = $this->configs['getters'][$genField['getter']];
+            }
         }
 
         $templateCode = $template->render([
