@@ -2,8 +2,6 @@
 
 namespace igeekspace\TwothinkCodeGeneration\maker;
 
-use igeekspace\TwothinkCodeGeneration\command\CodeGeneration;
-
 abstract class ViewMaker extends Maker
 {
     protected $configs = [];
@@ -15,7 +13,7 @@ abstract class ViewMaker extends Maker
         $tableFields = $this->configs['fields'];
 
         if (isset($tableFields[$field])) {
-            $fieldConfigs = $tableFields[$field]['Comment'];
+            $fieldConfigs = $tableFields[$field]['CodeGenerationConfigs'];
             $name = $fieldConfigs['name'];
         } else {
             $getters = $this->configs['getters'];
@@ -30,8 +28,8 @@ abstract class ViewMaker extends Maker
         $tableFields = $this->configs['fields'];
 
         $type = 'text';
-        if (isset($tableFields[$field]['Comment'])) {
-            $fieldConfigs = $tableFields[$field]['Comment'];
+        if (isset($tableFields[$field]['CodeGenerationConfigs'])) {
+            $fieldConfigs = $tableFields[$field]['CodeGenerationConfigs'];
 
             if (isset($fieldConfigs['type'])) {
                 $type = $fieldConfigs['type'];
@@ -60,7 +58,7 @@ abstract class ViewMaker extends Maker
     {
         $tableFields = $this->configs['fields'];
 
-        $fieldConfigs = $tableFields[$field]['Comment'];
+        $fieldConfigs = $tableFields[$field]['CodeGenerationConfigs'];
 
         return $fieldConfigs;
     }
@@ -74,15 +72,15 @@ abstract class ViewMaker extends Maker
 
         $fields = [];
         foreach ($tableFields as $tableField) {
-            if (isset($tableField['Comment'][$this->type]) && $tableField['Comment'][$this->type]['generate_code']) {
-                $tableField['Comment'][$this->type]['key'] = $tableField['Field'];
+            if (isset($tableField['CodeGenerationConfigs'][$this->type]) && $tableField['CodeGenerationConfigs'][$this->type]['generate_code']) {
+                $tableField['CodeGenerationConfigs'][$this->type]['key'] = $tableField['Field'];
 
-                if (isset($tableField['Comment']['getter'])) {
-                    $tableField['Comment'][$this->type]['getter'] = $tableField['Comment']['getter'];
+                if (isset($tableField['CodeGenerationConfigs']['getter'])) {
+                    $tableField['CodeGenerationConfigs'][$this->type]['getter'] = $tableField['CodeGenerationConfigs']['getter'];
                 } else {
-                    $tableField['Comment'][$this->type]['getter'] = $tableField['Comment'][$this->type]['key'];
+                    $tableField['CodeGenerationConfigs'][$this->type]['getter'] = $tableField['CodeGenerationConfigs'][$this->type]['key'];
                 }
-                $fields[$tableField['Field']] = $tableField['Comment'][$this->type];
+                $fields[$tableField['Field']] = $tableField['CodeGenerationConfigs'][$this->type];
             }
         }
 
