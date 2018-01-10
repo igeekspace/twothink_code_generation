@@ -1,0 +1,21 @@
+<div class="hor-menu  ">
+    <ul class="nav navbar-nav">
+        {volist name="topMenus" id="topMenus" }
+        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+            <a href="javascript:;">
+                <i class="{$topMenus.icon}"></i> {$topMenus['title']}
+                <span class="arrow"></span>
+            </a>
+            <ul class="dropdown-menu pull-left">
+                {volist name="$topMenus['child']" id="secondMenus" key='j'}
+                <li aria-haspopup="true">
+                    <a href="{:url($secondMenus['url'])}" class="nav-link nav-toggle">
+                        <i class="{$secondMenus.icon}"></i> {$secondMenus['title']}
+                    </a>
+                </li>
+                {/volist}<!-- 循环输出变量 -->
+            </ul>
+        </li>
+        {/volist}
+    </ul>
+</div>
